@@ -23,17 +23,33 @@ vk = vk_session.get_api()
 
 
 #  получение одной записи
-def onepost(post,idwall=False,type=False):
+def onepost(post,repost,idwall=False,type=False):
 
-    somepost = Post.create(id=post['id'],
-                     subsidiarypost=idwall,
-                    idwall=post['owner_id'],
-                    iduser=post['from_id'],
-                    text=post['text'],
-                    date=datetime.datetime.fromtimestamp(post['date']),
-                    likes=post['likes']['count'],
-                    reposts=post['reposts']['count'],
-                    foto=0)
+    if repost:
+        somepost = Post.create(id=post['id'],
+                             subsidiarypost=idwall,
+                            idwall=post['owner_id'],
+                            iduser=post['from_id'],
+                            text=post['text'],
+                            date=datetime.datetime.fromtimestamp(post['date']),
+                            likes=0,
+                            reposts=0,
+                            foto=0)
+    else:
+        somepost = Post.create(id=post['id'],
+                               subsidiarypost=idwall,
+                               idwall=post['owner_id'],
+                               iduser=post['from_id'],
+                               text=post['text'],
+                               date=datetime.datetime.fromtimestamp(post['date']),
+                               likes=post['likes']['count'],
+                               reposts=post['reposts']['count'],
+                               foto=0)
+    # except:
+    #     print(9)
+    # если id стены и автора поста не совпадают то кидаем его в очередь на парсинг
+    if post['owner_id']!=post['from_id']:
+        queuewall.append(post['from_id'])
 
     # somepost.save()
 
@@ -63,12 +79,14 @@ def onepost(post,idwall=False,type=False):
         # если это профиль
             allcomments=vk.wall.getComments(owner_id=-idwall,post_id=somepost.id)
         for i in allcomments['items']:
-            somecomment=Comment.create(id=i['id'],
-                                idwall=idwall,
-                                text=i['text'],
-                                idpost=somepost.id)
+            if 'text' in i:
+                somecomment=Comment.create(id=i['id'],
+                                    idwall=idwall,
+                                    text=i['text'],
+                                    idpost=somepost.id)
+
             # somecomment.save()
-            print(somecomment)
+            # print(somecomment)
             # смотрим нааличие там фото
             if 'attachments' in i:
                 for j in i['attachments']:
@@ -77,8 +95,8 @@ def onepost(post,idwall=False,type=False):
                                           idpost=post['id'],
                                           idwall=post['owner_id'],
                                           where='comment',
-                                          photobytes=requests.get(i['photo']['sizes'][0]['url']).content,
-                                          url=i['photo']['sizes'][0]['url'],
+                                          photobytes=requests.get(j['photo']['sizes'][0]['url']).content,
+                                          url=j['photo']['sizes'][0]['url'],
                                           idcomment=i['id'])
                         # somephoto.save()
                         print(somephoto)
@@ -93,8 +111,9 @@ def onepost(post,idwall=False,type=False):
 
     # если это репост
     if 'copy_history' in post:
-        onepost(post['copy_history'],post['id'])
-        somepost.subsidiarypost=post['copy_history']['id']
+        onepost(post['copy_history'][0],True,post['id'])
+        somepost.subsidiarypost=post['copy_history'][0]['id']
+        queuewall.append(post['copy_history'][0]['from_id'])
     return somepost
 
 
@@ -102,28 +121,49 @@ def onepost(post,idwall=False,type=False):
 
 
 
+queuewall=[]
+#функция получения  всех записей стены по домену страницы
+#id,  type, domain
+def readfromwall(helpdict):
 
-#функция получения  всех записей стены по ссылке
-def readfromwall(link):
 
 
     # процесс получения id - делаем это потому что в случае ошибки на нас не вернутся айдишник
-    domain = link.split('/')[-1]
-    a=vk.utils.resolveScreenName(screen_name=domain)
-    id=a['object_id']
-    typeobjct=a['type']
+    # domain = link.split('/')[-1]
+    if helpdict['domain']:
+        domain=helpdict['domain']
+        a=vk.utils.resolveScreenName(screen_name=helpdict['domain'])
+        id=a['object_id']
+        typeobjct = a['type']
+    else:
+        id = helpdict['id']
+        if id>0:
+            typeobjct = 'user'
+            domain=vk.user.users.get(user_ids=-id, fields='screen_name')['response'][0]['screen_name']
+        else:
+            typeobjct = 'group'
+            domain=vk.groups.getById(group_id=id, fields='screen_name')['response'][0]['screen_name']
+
+
+    # если с этой стены мы еще не читали то читаем
+    if newwallaboutdomain(id):
+        return
 
 
 
-    response = vk.wall.get(domain=domain,count=10000)  # Используем метод wall.get
+
+
+
+
+    response = vk.wall.get(domain=helpdict['domain'],count=10000)  # Используем метод wall.get
 
     # проверим есть ли ошибка - если есть то запишем но уже не сохраняя посты
     if 'error_code' in response:
-        somawall = Wall.create(domain=domain,id= id,type= typeobjct,error=response['error_code'])
-        # somawall.save()
+        somawall = Wall.create(domain=helpdict['domain'],id= id,type= typeobjct,error=response['error_code'])
+
     else:
-        somawall = Wall.create(domain=domain,id= id,type= typeobjct,error=0)
-        # somawall.save()
+        somawall = Wall.create(domain=helpdict['domain'],id= id,type= typeobjct,error=0)
+
 
 
 
@@ -137,18 +177,53 @@ def readfromwall(link):
 #если ошибки при получении стены не было то идем дальше и смотрим что на стене
         for post in response['items']:
             print('-----------------------------------------------------------------------------------------------------------')
-            somepost=onepost(post,somawall.id,somawall.type)
+            somepost=onepost(post,False,somawall.id,somawall.type)
 
 
+def takelistdomain(file):
+    listdomain=[]
+# читаем из файла каждую строку - это наш запрос к поиску групп
+    with open(file, 'r') as f:
+        for line in f:
+            a=vk.groups.search(q=line)
+    # идем по этому списку и делаем запросы с желанием получить эти группы
+            for onegroup in vk.groups.search(q=line)['items']:
+                listdomain.append(onegroup['screen_name'])
+    return listdomain
 
+
+#функция проверки наличия у нас еще памяти
+def limitramm():
+    pass
+# функция проверки есть у нас эта стена уже в базе или еще нет
+# обезопасет нас от бесконечной рекурсии
+# вернуть true если с таким именем стена в базе уже есть
+def newwallaboutdomain(domain):
+    if len(Wall.select().where(Wall.domain == domain)):
+        return True
+    return False
+def newwallaboutid(id):
+    if len(Wall.select().where(Wall.id == id)):
+        return True
+    return False
 
 
 
 
 if __name__=="__main__":
+    #имя файла для ключевых слов, изначально для которых ищем группы
+    keywoldsfile='beginlist'
     Comment.create_table()
     Photo.create_table()
     Post.create_table()
     Wall.create_table()
-    readfromwall('https://vk.com/id13757332')
+    list_of_seach=takelistdomain(keywoldsfile)
+
+    # по ключевым словам получаем список доменов, по которым ведется дальнейший парсинг
+    for i1 in list_of_seach:
+        readfromwall({'domain':i1,'type':False})
+    while len(queuewall):
+        for j1 in queuewall:
+            queuewall.remove(j1)
+            readfromwall({'id':j1,'domain':False})
 

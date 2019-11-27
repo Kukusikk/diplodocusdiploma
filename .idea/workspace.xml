@@ -2,18 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ef091f0-7566-43b3-b215-ad41e2231b07" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entity/Comment.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entity/Post.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entity/SettingDataBase.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entity/Wall.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/entity/photo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/help.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bottelegram.py" beforeDir="false" afterPath="$PROJECT_DIR$/bottelegram.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/botvk.py" beforeDir="false" afterPath="$PROJECT_DIR$/botvk.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/session.session" beforeDir="false" afterPath="$PROJECT_DIR$/session.session" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -160,23 +150,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/botvk.py</url>
-          <line>37</line>
-          <option name="timeStamp" value="23" />
+          <line>48</line>
+          <option name="timeStamp" value="41" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/botvk.py</url>
-          <line>27</line>
-          <option name="timeStamp" value="24" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/botvk.py</url>
-          <line>36</line>
-          <option name="timeStamp" value="25" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/botvk.py</url>
-          <line>152</line>
-          <option name="timeStamp" value="27" />
+          <line>113</line>
+          <option name="timeStamp" value="43" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
