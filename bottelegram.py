@@ -13,7 +13,7 @@ api_hash = "ee798991396203bd491eef71a3ba96bc"              # API Hash (отту�
 proxy_ip="192.169.202.18"
 port=2472
 
-client = TelegramClient('session', api_id, api_hash, proxy=(socks.SOCKS5, str(proxy_ip), port))
+client = TelegramClient('session2', api_id, api_hash, proxy=(socks.SOCKS5, str(proxy_ip), port))
 client.start()
 
 
@@ -23,7 +23,8 @@ client.start()
 def readfromkanal():
 
     print("input link : ")
-    kanal=input() # название канала для поиска там
+    # kanal=input() # название канала для поиска там
+    kanal='???'
     loop = asyncio.get_event_loop()
     dp = loop.run_until_complete(client.get_entity(kanal))
     posts = loop.run_until_complete(client.get_messages(dp,limit=1000))
