@@ -2,10 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ef091f0-7566-43b3-b215-ad41e2231b07" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/beginlisttelegram" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/for_telegram/entity/kanal.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/for_telegram/entity/message.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/for_telegram/entity/photo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/for_telegram/forhelp.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/helpstatistic.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/botvk.py" beforeDir="false" afterPath="$PROJECT_DIR$/botvk.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bottelegram.py" beforeDir="false" afterPath="$PROJECT_DIR$/for_telegram/bottelegram.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/botvk.py" beforeDir="false" afterPath="$PROJECT_DIR$/for_vk/botvk.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/Comment.py" beforeDir="false" afterPath="$PROJECT_DIR$/for_vk/entity/Comment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/Post.py" beforeDir="false" afterPath="$PROJECT_DIR$/for_vk/entity/Post.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/SettingDataBase.py" beforeDir="false" afterPath="$PROJECT_DIR$/for_vk/entity/SettingDataBase.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/Wall.py" beforeDir="false" afterPath="$PROJECT_DIR$/for_vk/entity/Wall.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entity/photo.py" beforeDir="false" afterPath="$PROJECT_DIR$/for_vk/entity/photo.py" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,23 +37,22 @@
   </component>
   <component name="ProjectId" id="1TiIf3vjMJigLQkSvT4WPwsHWF9" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../untitled2" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/for_telegram" />
+      <recent name="$PROJECT_DIR$/for_vk" />
+    </key>
   </component>
-  <component name="RunManager" selected="Python.botvk">
+  <component name="RunManager" selected="Python.aaa">
     <configuration name="SettingDataBase" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="untitled5" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -76,7 +86,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bottelegram.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/for_telegram/bottelegram.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -97,7 +107,49 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/botvk.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/for_vk/botvk.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="forhelp" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="untitled5" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/for_telegram" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/for_telegram/forhelp.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="helpstatistic" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="untitled5" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/helpstatistic.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -108,11 +160,25 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.botvk" />
-        <item itemvalue="Python.SettingDataBase" />
         <item itemvalue="Python.aaa" />
+        <item itemvalue="Python.botvk" />
+        <item itemvalue="Python.helpstatistic" />
+        <item itemvalue="Python.forhelp" />
+        <item itemvalue="Python.SettingDataBase" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -140,23 +206,79 @@
       </map>
     </option>
   </component>
+  <component name="WindowStateProjectService">
+    <state x="633" y="358" width="644" height="397" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1575557824001">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="633" y="358" width="644" height="397" key="#com.intellij.fileTypes.FileTypeChooser/0.27.1920.1053@0.27.1920.1053" timestamp="1575557824001" />
+    <state width="1897" height="266" key="GridCell.Tab.0.bottom" timestamp="1575559661331">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1897" height="266" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1575559661331" />
+    <state width="1897" height="266" key="GridCell.Tab.0.center" timestamp="1575559661328">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1897" height="266" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1575559661328" />
+    <state width="1897" height="266" key="GridCell.Tab.0.left" timestamp="1575559661327">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1897" height="266" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1575559661327" />
+    <state width="1897" height="266" key="GridCell.Tab.0.right" timestamp="1575559661329">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1897" height="266" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1575559661329" />
+    <state width="1897" height="265" key="GridCell.Tab.1.bottom" timestamp="1575559631911">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1897" height="265" key="GridCell.Tab.1.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1575559631911" />
+    <state width="1897" height="265" key="GridCell.Tab.1.center" timestamp="1575559631911">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1897" height="265" key="GridCell.Tab.1.center/0.27.1920.1053@0.27.1920.1053" timestamp="1575559631911" />
+    <state width="1897" height="265" key="GridCell.Tab.1.left" timestamp="1575559631911">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1897" height="265" key="GridCell.Tab.1.left/0.27.1920.1053@0.27.1920.1053" timestamp="1575559631911" />
+    <state width="1897" height="265" key="GridCell.Tab.1.right" timestamp="1575559631911">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1897" height="265" key="GridCell.Tab.1.right/0.27.1920.1053@0.27.1920.1053" timestamp="1575559631911" />
+    <state width="960" height="526" key="XDebugger.FullValuePopup" timestamp="1575550406875">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="960" height="526" key="XDebugger.FullValuePopup/0.27.1920.1053@0.27.1920.1053" timestamp="1575550406875" />
+    <state x="616" y="381" key="com.intellij.ide.util.TipDialog" timestamp="1575497177560">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="616" y="381" key="com.intellij.ide.util.TipDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1575497177560" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/bottelegram.py</url>
-          <line>29</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/botvk.py</url>
-          <line>48</line>
+          <url>file://$PROJECT_DIR$/for_vk/botvk.py</url>
+          <line>47</line>
           <option name="timeStamp" value="41" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/botvk.py</url>
-          <line>113</line>
+          <url>file://$PROJECT_DIR$/for_vk/botvk.py</url>
+          <line>112</line>
           <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/for_vk/botvk.py</url>
+          <line>199</line>
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/for_telegram/bottelegram.py</url>
+          <line>60</line>
+          <option name="timeStamp" value="62" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/for_telegram/bottelegram.py</url>
+          <line>53</line>
+          <option name="timeStamp" value="69" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
