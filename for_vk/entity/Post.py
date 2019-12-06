@@ -16,6 +16,8 @@ class Post(Model):
     subsidiarypost = IntegerField(null=False)
     # здесь пишем количесво фото к посту
     foto = IntegerField(null=False)
+    #классификация поста
+    classification=IntegerField(null=False)
 
 
 

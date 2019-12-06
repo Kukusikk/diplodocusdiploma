@@ -8,7 +8,7 @@ import datetime
 
 
 # login, password = sys.argv[1], sys.argv[2]
-login, password =
+login, password = '79169686822', 'bios88005553535bios'
 vk_session = vk_api.VkApi(login, password)
 
 try:
@@ -33,7 +33,7 @@ def onepost(post,repost,idwall=False,type=False):
                             date=datetime.datetime.fromtimestamp(post['date']),
                             likes=0,
                             reposts=0,
-                            foto=0)
+                            foto=0, classification=0)
     else:
         somepost = Post.create(id=post['id'],
                                subsidiarypost=idwall,
@@ -43,7 +43,7 @@ def onepost(post,repost,idwall=False,type=False):
                                date=datetime.datetime.fromtimestamp(post['date']),
                                likes=post['likes']['count'],
                                reposts=post['reposts']['count'],
-                               foto=0)
+                               foto=0, classification=9)
     # except:
     #     print(9)
     # если id стены и автора поста не совпадают то кидаем его в очередь на парсинг
