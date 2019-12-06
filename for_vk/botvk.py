@@ -8,7 +8,7 @@ import datetime
 
 
 # login, password = sys.argv[1], sys.argv[2]
-login, password = '79169686822', 'bios88005553535bios'
+login, password = 
 vk_session = vk_api.VkApi(login, password)
 
 try:
