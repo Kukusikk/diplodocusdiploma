@@ -8,7 +8,7 @@ import datetime
 
 
 # login, password = sys.argv[1], sys.argv[2]
-login, password = 
+login, password = '79169686822', 'bios88005553535bios'
 vk_session = vk_api.VkApi(login, password)
 
 try:
@@ -33,7 +33,9 @@ def onepost(post,repost,idwall=False,type=False):
                             date=datetime.datetime.fromtimestamp(post['date']),
                             likes=0,
                             reposts=0,
-                            foto=0, classification=0)
+                            foto=0,
+                            subsidiaryowner_id=0,
+                            classification=0,testingclassification=0)
     else:
         somepost = Post.create(id=post['id'],
                                subsidiarypost=idwall,
@@ -43,14 +45,13 @@ def onepost(post,repost,idwall=False,type=False):
                                date=datetime.datetime.fromtimestamp(post['date']),
                                likes=post['likes']['count'],
                                reposts=post['reposts']['count'],
-                               foto=0, classification=9)
+                               subsidiaryowner_id=0,
+                               foto=0, classification=0,testingclassification=0)
     # except:
     #     print(9)
     # если id стены и автора поста не совпадают то кидаем его в очередь на парсинг
     if post['owner_id']!=post['from_id']:
         queuewall.append(post['from_id'])
-
-    # somepost.save()
 
     # если в записи есть фотки
     if 'attachments' in post:
@@ -71,34 +72,39 @@ def onepost(post,repost,idwall=False,type=False):
     # доступно только для нерепостнутых записей
     # будем собирать только первые комменты без комментов комментов
     if type:
-        if type=='user':
-        # если это группа
-            allcomments=vk.wall.getComments(owner_id=idwall,post_id=somepost.id)
-        elif type=='group':
-        # если это профиль
-            allcomments=vk.wall.getComments(owner_id=-idwall,post_id=somepost.id)
-        for i in allcomments['items']:
-            if 'text' in i:
-                somecomment=Comment.create(id=i['id'],
-                                    idwall=idwall,
-                                    text=i['text'],
-                                    idpost=somepost.id)
+        try:
+            if type=='user':
+            # если это группа
 
-            # somecomment.save()
-            # print(somecomment)
-            # смотрим нааличие там фото
-            if 'attachments' in i:
-                for j in i['attachments']:
-                    if j['type'] == 'photo':
-                        somephoto = Photo.create(id=j['photo']['id'],
-                                          idpost=post['id'],
-                                          idwall=post['owner_id'],
-                                          where='comment',
-                                          photobytes=requests.get(j['photo']['sizes'][0]['url']).content,
-                                          url=j['photo']['sizes'][0]['url'],
-                                          idcomment=i['id'])
-                        # somephoto.save()
-                        print(somephoto)
+                allcomments=vk.wall.getComments(owner_id=idwall,post_id=somepost.id)
+            elif type=='group':
+            # если это профиль
+                allcomments=vk.wall.getComments(owner_id=-idwall,post_id=somepost.id)
+
+            for i in allcomments['items']:
+                if 'text' in i:
+                    somecomment=Comment.create(id=i['id'],
+                                        idwall=idwall,
+                                        text=i['text'],
+                                        idpost=somepost.id)
+
+                # somecomment.save()
+                # print(somecomment)
+                # смотрим нааличие там фото
+                if 'attachments' in i:
+                    for j in i['attachments']:
+                        if j['type'] == 'photo':
+                            somephoto = Photo.create(id=j['photo']['id'],
+                                              idpost=post['id'],
+                                              idwall=post['owner_id'],
+                                              where='comment',
+                                              photobytes=requests.get(j['photo']['sizes'][0]['url']).content,
+                                              url=j['photo']['sizes'][0]['url'],
+                                              idcomment=i['id'])
+                            # somephoto.save()
+                            print(somephoto)
+        except:
+            pass
 
 
 
@@ -110,8 +116,9 @@ def onepost(post,repost,idwall=False,type=False):
 
     # если это репост
     if 'copy_history' in post:
-        onepost(post['copy_history'][0],True,post['id'])
+        onepost(post['copy_history'][0],True,post['copy_history'][0]['owner_id'])
         somepost.subsidiarypost=post['copy_history'][0]['id']
+        somepost.subsidiaryowner_id=post['copy_history'][0]['owner_id']
         queuewall.append(post['copy_history'][0]['from_id'])
     return somepost
 
@@ -153,21 +160,18 @@ def readfromwall(helpdict):
 
 
 
+    try:
+        response = vk.wall.get(domain=helpdict['domain'],count=10000)  # Используем метод wall.get
 
-    response = vk.wall.get(domain=helpdict['domain'],count=10000)  # Используем метод wall.get
+        # проверим есть ли ошибка - если есть то запишем но уже не сохраняя посты
+        if 'error_code' in response:
+            somawall = Wall.create(domain=helpdict['domain'],id= id,type= typeobjct,error=response['error_code'])
 
-    # проверим есть ли ошибка - если есть то запишем но уже не сохраняя посты
-    if 'error_code' in response:
-        somawall = Wall.create(domain=helpdict['domain'],id= id,type= typeobjct,error=response['error_code'])
-
-    else:
-        somawall = Wall.create(domain=helpdict['domain'],id= id,type= typeobjct,error=0)
-
-
-
-
-
-    print(somawall)
+        else:
+            somawall = Wall.create(domain=helpdict['domain'],id= id,type= typeobjct,error=0)
+        print(somawall)
+    except:
+        somawall = Wall.create(domain=helpdict['domain'], id=id, type=typeobjct, error=1)
 
 
 

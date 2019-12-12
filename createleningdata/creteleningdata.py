@@ -1,3 +1,7 @@
+# тут будет происходить разметка уже имеющихся данных, которые лежат в базе данных с помощью алгоритмов word2vec
+# идея состоит в том, чтобы по созданной уже модели world2vec создать для имеющихся у нас постов классификацию на основе
+# значения уже имеющегося вектора
+
 import re
 from collections import defaultdict
 import psycopg2
@@ -8,75 +12,41 @@ import matplotlib.pyplot as plt
 import datetime
 from dateutil.relativedelta import relativedelta
 from sklearn.feature_extraction.text import TfidfVectorizer
-# данный скрипт будет  создаваться во время
-# Поле с признаком:
-# текст поста, в случае если он репостнут то берем текст еще и из начального поста
-# Дата поста
-# домен стены
-# количество лайков в случае если он репостнут то суммируем их
-# количество репостов в случае если он репостнут то суммируем их
-# количество фото в случае если он репостнут то суммируем их
-
-
-
-#Сначала считаем все тексты и создадим обучающу выборку. Где объектом станут упорядоченные
-# слова из тескта, а label-ом класс, к которому относится текст.
-
 
 
 
 def createleningdata():
 #подключаемсяк бд
-    x,y=[],[]
+    x=[]
     # идем по таблице со всеми постами
 
 
     conn = psycopg2.connect(dbname='diplodog', user='test_user',
                             password='qwerty', host='localhost', port=5434)
     cursor = conn.cursor()
-    cursor.execute('SELECT idwall, text, date, likes, reposts, subsidiarypost, foto, classification from post')
+    cursor.execute('SELECT id, text, idwall, subsidiarypost,subsidiaryowner_id from post')
     records = cursor.fetchall()
     # идем по каждому посту
     for onepost in records:
-        idwall=onepost[0]
-        if idwall<0:
-            idwall=-idwall
-    #берем домен стены
-        cursor.execute('SELECT domain from Wall where id={}'.format(idwall))
-        try:
-            domenwall = cursor.fetchall()[0][0]
-        except:
-            # если эта группа еще не была обойдена
-            continue
-# если запись репостнута то идем и берем текст из репоста и количество фоток тоже
+        id=onepost[0]
+        idwall=onepost[2]
         text=onepost[1]
-        date=onepost[2]
-        likes=onepost[3]
-        reposts=onepost[4]
-        foto=onepost[6]
-        classification=onepost[7]
-        subsidiarypost=onepost[5]
-        while subsidiarypost:
+        subsidiarypost=onepost[3]
+        subsidiaryowner_id=onepost[4]
+        if subsidiarypost:
 # если запись репостнута то идем и берем текст из репоста и количество фоток тоже
-            cursor.execute('SELECT text, likes, reposts, subsidiarypost, foto from post where id={}'.format(onepost[5]))
+            cursor.execute('SELECT  text  from post where id={} and idwall={}'.format(subsidiarypost,subsidiaryowner_id))
             primarysource=cursor.fetchall()
             if len(primarysource):
             #     мы могли не обойти эту группу, чтобы не вылететь делаем проверку
-                text += primarysource[0][0]
+                text +=' '+ primarysource[0][0]
+        #формируем итоговую выборку текстов
+        x.append([correcttext(text),id,idwall] )
 
-                likes += primarysource[0][1]
-                reposts += primarysource[0][2]
-                foto += primarysource[0][4]
-                subsidiarypost=primarysource[0][3]
-            else:
-                subsidiarypost=0
-        #формируем итоговую выборку
-        x.append([correcttext(text),correctdate(date),[domenwall], likes,reposts, foto ])
-        y.append(classification)
 
     cursor.close()
     conn.close()
-    return x,np.array(y)
+    return x
 
 
 # корректируем текст сообщения - удаляем абзацы, разбиваем на слова, удаляем знаки припенания и приводим все к нижнему регистру
@@ -87,10 +57,6 @@ def correcttext(text):
     text=re.sub(r"[\n,\.,;:!\?-]", "", text)
     return re.findall(r'\w+',text.lower())
 
-
-# корректируем дату в количество недель
-def correctdate(date):
-    return relativedelta(datetime.date.today(),date).weeks
 
 
 def fit(listworld):
@@ -107,17 +73,37 @@ def fit(listworld):
     except:
         return [0 for i in range(len(listworld))]
 
+def keywords():
+    listkeywords=[]
+    filename='keywords'
+    with open(filename, 'r') as f:
+        for line in f:
+            listkeywords.append(re.sub(r"\n", "", line))
+    return listkeywords
+
+# проверяем схож ли данный вектор на вектора с нашей любимой суецидальной тематикой
+def whatkategory(a):
+    j=max(list(a))
+    if j:
+       n=model.most_similar(positive=[a], topn=10)
+       listsravnen=keywords()
+       for i in n:
+           if i[0] in listsravnen:
+               return 1
+    return 0
 
 
-X,Y=createleningdata()
-print(6)
+
+
+X=createleningdata()
+
 # Для того чтобы обучить классификатор каждый объект должен быть задан вектором числовых признаков. Именно для решения этой проблемы очень
 # удобно применить Word2Vec и перевести слова в числовые вектора
 # туда должны закинуть все предложения и имена доменов как предложения
 dataforvectoring=[]
 for i in X:
     dataforvectoring.append(i[0])
-    dataforvectoring.append(i[2])
+
 model=word2vec.Word2Vec(dataforvectoring,sg=1, size=100, window=3,  workers=4)
 
 # Теперь для каждого слова из теста мы имеем соответсвующий ему вектор
@@ -126,13 +112,13 @@ model=word2vec.Word2Vec(dataforvectoring,sg=1, size=100, window=3,  workers=4)
 # словаря, которые есть в данном тексте (если слова нет в тексте, то берем нулевой вектор). Это
 # преобразование реализуется методом transform класса mean vectorizer.
 # print(model['MUSIC'])
+
+
+# получим список слов по которым нам нужно
+
 for i in X:
-    # a=tfidf_vectorizes(np.array(i[0]))
-# идем по каждому тексту
-#     dim=len(next(iter(model.values())))
     listvector = []
     for world in i[0]:
-
         if world in model:
             # идем по каждому слову
             # и добавляем его вектор в массив
@@ -141,34 +127,22 @@ for i in X:
             except:
                 listvector.append(fit(i[0]))
 
-    a=np.mean(listvector  or [np.zeros(len(i[0]))],axis=0)
+    a=np.mean(listvector  or [np.zeros(100)],axis=0)
     i[0]=a
-    i[2]=model[i[2]]
+
+    if whatkategory(a):
+        # если категория текста не нулевая
+        conn2 = psycopg2.connect(dbname='diplodog', user='test_user',
+                                password='qwerty', host='localhost', port=5434)
+        cursor2 = conn2.cursor()
+        cursor2.execute('UPDATE post SET classification=1 WHERE ID={} and idwall={}'.format(i[1],i[2]))
+        conn2.commit()
+        cursor2.close()
+        conn2.close()
 
 
-result=[]
-for i in (X[0][0]).tolist():
-    result.append(i)
-result.append(X[0][1])
-for i in list(X[0][2][0]):
-    result.append(i)
-result.append(X[0][3])
-result.append(X[0][4])
-result.append(X[0][5])
-s=''
-k=0
-print("X=")
-for i in result:
-    s += str(i)
-    if k<10:
-        k+=1
-    else:
-        print(s)
-        s=''
-        k=0
-print(s)
-print('Y=',0)
 
-# print(result)
-# #########################################################################################################################################
-# дальше идет посмтоение классификатора
+
+
+
+

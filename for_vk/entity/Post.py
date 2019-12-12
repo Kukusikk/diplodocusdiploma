@@ -14,10 +14,12 @@ class Post(Model):
     reposts = IntegerField()
     # в случае если запись репосттнута то тут тоже пост от репоста
     subsidiarypost = IntegerField(null=False)
+    subsidiaryowner_id=IntegerField(null=False)
     # здесь пишем количесво фото к посту
     foto = IntegerField(null=False)
     #классификация поста
     classification=IntegerField(null=False)
+    testingclassification=IntegerField(null=False)
 
 
 
