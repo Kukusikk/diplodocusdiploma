@@ -24,7 +24,7 @@ def createleningdata():
     conn = psycopg2.connect(dbname='diplodog', user='test_user',
                             password='qwerty', host='localhost', port=5434)
     cursor = conn.cursor()
-    cursor.execute('SELECT id, text, idwall, subsidiarypost,subsidiaryowner_id from post')
+    cursor.execute('SELECT id, text, idwall, subsidiarypost,subsidiaryowner_id,idwall from post')
     records = cursor.fetchall()
     # идем по каждому посту
     for onepost in records:
@@ -33,6 +33,16 @@ def createleningdata():
         text=onepost[1]
         subsidiarypost=onepost[3]
         subsidiaryowner_id=onepost[4]
+        idwall = onepost[5]
+        if idwall < 0:
+            idwall = -idwall
+        # берем домен стены
+        cursor.execute('SELECT domain from Wall where id={} '.format(idwall))
+        try:
+            domenwall = cursor.fetchall()[0][0]
+        except:
+            # если эта группа еще не была обойдена
+            domenwall = ''
         if subsidiarypost:
 # если запись репостнута то идем и берем текст из репоста и количество фоток тоже
             cursor.execute('SELECT  text  from post where id={} and idwall={}'.format(subsidiarypost,subsidiaryowner_id))
@@ -41,7 +51,7 @@ def createleningdata():
             #     мы могли не обойти эту группу, чтобы не вылететь делаем проверку
                 text +=' '+ primarysource[0][0]
         #формируем итоговую выборку текстов
-        x.append([correcttext(text),id,idwall] )
+        x.append([correcttext(text),id,idwall, domenwall] )
 
 
     cursor.close()
@@ -103,6 +113,7 @@ X=createleningdata()
 dataforvectoring=[]
 for i in X:
     dataforvectoring.append(i[0])
+    dataforvectoring.append(i[3])
 
 model=word2vec.Word2Vec(dataforvectoring,sg=1, size=100, window=3,  workers=4)
 
@@ -118,6 +129,7 @@ model=word2vec.Word2Vec(dataforvectoring,sg=1, size=100, window=3,  workers=4)
 
 for i in X:
     listvector = []
+
     for world in i[0]:
         if world in model:
             # идем по каждому слову
@@ -130,15 +142,22 @@ for i in X:
     a=np.mean(listvector  or [np.zeros(100)],axis=0)
     i[0]=a
 
+
+    conn2 = psycopg2.connect(dbname='diplodog', user='test_user',
+                            password='qwerty', host='localhost', port=5434)
+    cursor2 = conn2.cursor()
     if whatkategory(a):
         # если категория текста не нулевая
-        conn2 = psycopg2.connect(dbname='diplodog', user='test_user',
-                                password='qwerty', host='localhost', port=5434)
-        cursor2 = conn2.cursor()
         cursor2.execute('UPDATE post SET classification=1 WHERE ID={} and idwall={}'.format(i[1],i[2]))
-        conn2.commit()
-        cursor2.close()
-        conn2.close()
+    else:
+        cursor2.execute('UPDATE post SET classification=0 WHERE ID={} and idwall={}'.format(i[1], i[2]))
+    conn2.commit()
+    cursor2.close()
+    conn2.close()
+
+
+# сохраним полученную модель
+model.save("word2vec.model")
 
 
 

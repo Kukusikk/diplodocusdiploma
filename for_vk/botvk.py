@@ -23,30 +23,10 @@ vk = vk_session.get_api()
 
 #  получение одной записи
 def onepost(post,repost,idwall=False,type=False):
-
-    if repost:
-        somepost = Post.create(id=post['id'],
-                             subsidiarypost=idwall,
-                            idwall=post['owner_id'],
-                            iduser=post['from_id'],
-                            text=post['text'],
-                            date=datetime.datetime.fromtimestamp(post['date']),
-                            likes=0,
-                            reposts=0,
-                            foto=0,
-                            subsidiaryowner_id=0,
-                            classification=0,testingclassification=0)
-    else:
-        somepost = Post.create(id=post['id'],
-                               subsidiarypost=idwall,
-                               idwall=post['owner_id'],
-                               iduser=post['from_id'],
-                               text=post['text'],
-                               date=datetime.datetime.fromtimestamp(post['date']),
-                               likes=post['likes']['count'],
-                               reposts=post['reposts']['count'],
-                               subsidiaryowner_id=0,
-                               foto=0, classification=0,testingclassification=0)
+    somepostdict={}
+    somepostdict['foto']=0
+    somepostdict['subsidiarypost']=0
+    somepostdict['subsidiaryowner_id']=0
     # except:
     #     print(9)
     # если id стены и автора поста не совпадают то кидаем его в очередь на парсинг
@@ -57,7 +37,8 @@ def onepost(post,repost,idwall=False,type=False):
     if 'attachments' in post:
         for i in post['attachments']:
             if i['type']=='photo':
-                somepost.foto+=1
+                somepostdict['foto']+=1
+                # somepost.foto+=1
                 somephoto=Photo.create(id=i['photo']['id'],
                                 idcomment=0,
                                 idpost=post['id'],
@@ -67,7 +48,7 @@ def onepost(post,repost,idwall=False,type=False):
                                 url=i['photo']['sizes'][0]['url'])
                 # somephoto.save()
                 print(somephoto)
-    print(somepost)
+    # print(somepost)
     # если в записи есть комменты
     # доступно только для нерепостнутых записей
     # будем собирать только первые комменты без комментов комментов
@@ -76,17 +57,17 @@ def onepost(post,repost,idwall=False,type=False):
             if type=='user':
             # если это группа
 
-                allcomments=vk.wall.getComments(owner_id=idwall,post_id=somepost.id)
+                allcomments=vk.wall.getComments(owner_id=idwall,post_id=post['id'])
             elif type=='group':
             # если это профиль
-                allcomments=vk.wall.getComments(owner_id=-idwall,post_id=somepost.id)
+                allcomments=vk.wall.getComments(owner_id=-idwall,post_id=post['id'])
 
             for i in allcomments['items']:
                 if 'text' in i:
                     somecomment=Comment.create(id=i['id'],
                                         idwall=idwall,
                                         text=i['text'],
-                                        idpost=somepost.id)
+                                        idpost=post['id'])
 
                 # somecomment.save()
                 # print(somecomment)
@@ -114,12 +95,39 @@ def onepost(post,repost,idwall=False,type=False):
 
 
 
+
     # если это репост
     if 'copy_history' in post:
         onepost(post['copy_history'][0],True,post['copy_history'][0]['owner_id'])
-        somepost.subsidiarypost=post['copy_history'][0]['id']
-        somepost.subsidiaryowner_id=post['copy_history'][0]['owner_id']
+        somepostdict['subsidiarypost']=post['copy_history'][0]['id']
+        somepostdict['subsidiaryowner_id']=post['copy_history'][0]['owner_id']
         queuewall.append(post['copy_history'][0]['from_id'])
+
+
+    if repost:
+        somepost = Post.create(id=post['id'],
+                             subsidiarypost=idwall,
+                            idwall=post['owner_id'],
+                            iduser=post['from_id'],
+                            text=post['text'],
+                            date=datetime.datetime.fromtimestamp(post['date']),
+                            likes=0,
+                            reposts=0,
+                            foto=0,
+                            subsidiaryowner_id=0,
+                            classification=0,testingclassification=0)
+    else:
+        somepost = Post.create(id=post['id'],
+                           subsidiarypost=idwall,
+                           idwall=post['owner_id'],
+                           iduser=post['from_id'],
+                           text=post['text'],
+                           date=datetime.datetime.fromtimestamp(post['date']),
+                           likes=post['likes']['count'],
+                           reposts=post['reposts']['count'],
+                           subsidiaryowner_id=somepostdict['subsidiaryowner_id'],
+                           foto=somepostdict['foto'], classification=0,testingclassification=0)
+    print(somepost)
     return somepost
 
 

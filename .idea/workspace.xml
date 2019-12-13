@@ -2,13 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ef091f0-7566-43b3-b215-ad41e2231b07" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/createleningdata/creteleningdata.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/createleningdata/keywords" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/klassificators/basik.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/klassificators/sosedi.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/klassificators/trees.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/klassificators/word2vec.model" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/beginlist" beforeDir="false" afterPath="$PROJECT_DIR$/beginlist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/createleningdata/creteleningdata.py" beforeDir="false" afterPath="$PROJECT_DIR$/createleningdata/creteleningdata.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/createleningdata/vectorworlds.py" beforeDir="false" afterPath="$PROJECT_DIR$/createleningdata/vectorworlds.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/for_vk/botvk.py" beforeDir="false" afterPath="$PROJECT_DIR$/for_vk/botvk.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/for_vk/entity/Post.py" beforeDir="false" afterPath="$PROJECT_DIR$/for_vk/entity/Post.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,17 +37,20 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/klassificators" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/klassificators" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/createleningdata" />
       <recent name="$PROJECT_DIR$/for_telegram" />
       <recent name="$PROJECT_DIR$/for_vk" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.creteleningdata">
+  <component name="RunManager" selected="Python.basik">
     <configuration name="aaa" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="untitled5" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -60,6 +64,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/for_telegram/bottelegram.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="basik" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="untitled5" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/klassificators" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/klassificators/basik.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -110,27 +135,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="helpstatistic" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="untitled5" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/helpstatistic.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="vectorworlds" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="untitled5" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -154,11 +158,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.basik" />
+        <item itemvalue="Python.vectorworlds" />
         <item itemvalue="Python.creteleningdata" />
         <item itemvalue="Python.botvk" />
-        <item itemvalue="Python.vectorworlds" />
         <item itemvalue="Python.aaa" />
-        <item itemvalue="Python.helpstatistic" />
       </list>
     </recent_temporary>
   </component>
@@ -201,71 +205,75 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state x="633" y="358" width="644" height="397" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1576112860982">
+    <state x="633" y="358" width="644" height="418" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1576231309173">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="633" y="358" width="644" height="397" key="#com.intellij.fileTypes.FileTypeChooser/0.27.1920.1053@0.27.1920.1053" timestamp="1576112860982" />
+    <state x="633" y="358" width="644" height="418" key="#com.intellij.fileTypes.FileTypeChooser/0.27.1920.1053@0.27.1920.1053" timestamp="1576231309173" />
     <state x="693" y="302" width="524" height="509" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1575663604910">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="693" y="302" width="524" height="509" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1575663604910" />
-    <state width="1897" height="265" key="GridCell.Tab.0.bottom" timestamp="1576114298634">
+    <state width="1897" height="298" key="GridCell.Tab.0.bottom" timestamp="1576241410194">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="265" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1576114298634" />
-    <state width="1897" height="265" key="GridCell.Tab.0.center" timestamp="1576114298634">
+    <state width="1897" height="298" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1576241410194" />
+    <state width="1897" height="298" key="GridCell.Tab.0.center" timestamp="1576241410192">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="265" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1576114298634" />
-    <state width="1897" height="265" key="GridCell.Tab.0.left" timestamp="1576114298631">
+    <state width="1897" height="298" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1576241410192" />
+    <state width="1897" height="298" key="GridCell.Tab.0.left" timestamp="1576241410191">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="265" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1576114298631" />
-    <state width="1897" height="265" key="GridCell.Tab.0.right" timestamp="1576114298634">
+    <state width="1897" height="298" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1576241410191" />
+    <state width="1897" height="298" key="GridCell.Tab.0.right" timestamp="1576241410193">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="265" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1576114298634" />
-    <state width="1897" height="265" key="GridCell.Tab.1.bottom" timestamp="1576114298635">
+    <state width="1897" height="298" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1576241410193" />
+    <state width="1897" height="298" key="GridCell.Tab.1.bottom" timestamp="1576241397778">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="265" key="GridCell.Tab.1.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1576114298635" />
-    <state width="1897" height="265" key="GridCell.Tab.1.center" timestamp="1576114298635">
+    <state width="1897" height="298" key="GridCell.Tab.1.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1576241397778" />
+    <state width="1897" height="298" key="GridCell.Tab.1.center" timestamp="1576241397778">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="265" key="GridCell.Tab.1.center/0.27.1920.1053@0.27.1920.1053" timestamp="1576114298635" />
-    <state width="1897" height="265" key="GridCell.Tab.1.left" timestamp="1576114298635">
+    <state width="1897" height="298" key="GridCell.Tab.1.center/0.27.1920.1053@0.27.1920.1053" timestamp="1576241397778" />
+    <state width="1897" height="298" key="GridCell.Tab.1.left" timestamp="1576241397777">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="265" key="GridCell.Tab.1.left/0.27.1920.1053@0.27.1920.1053" timestamp="1576114298635" />
-    <state width="1897" height="265" key="GridCell.Tab.1.right" timestamp="1576114298635">
+    <state width="1897" height="298" key="GridCell.Tab.1.left/0.27.1920.1053@0.27.1920.1053" timestamp="1576241397777" />
+    <state width="1897" height="298" key="GridCell.Tab.1.right" timestamp="1576241397778">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="265" key="GridCell.Tab.1.right/0.27.1920.1053@0.27.1920.1053" timestamp="1576114298635" />
+    <state width="1897" height="298" key="GridCell.Tab.1.right/0.27.1920.1053@0.27.1920.1053" timestamp="1576241397778" />
     <state width="960" height="526" key="XDebugger.FullValuePopup" timestamp="1575834736679">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state width="960" height="526" key="XDebugger.FullValuePopup/0.27.1920.1053@0.27.1920.1053" timestamp="1575834736679" />
-    <state x="616" y="381" key="com.intellij.ide.util.TipDialog" timestamp="1576010932914">
+    <state x="616" y="381" key="com.intellij.ide.util.TipDialog" timestamp="1576188139053">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="616" y="381" key="com.intellij.ide.util.TipDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576010932914" />
+    <state x="616" y="381" key="com.intellij.ide.util.TipDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576188139053" />
+    <state x="510" y="292" width="890" height="529" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1576235542946">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="510" y="292" width="890" height="529" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.27.1920.1053@0.27.1920.1053" timestamp="1576235542946" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/for_vk/botvk.py</url>
-          <line>50</line>
+          <line>30</line>
           <option name="timeStamp" value="41" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/for_vk/botvk.py</url>
-          <line>118</line>
+          <line>100</line>
           <option name="timeStamp" value="43" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/for_vk/botvk.py</url>
-          <line>203</line>
+          <line>211</line>
           <option name="timeStamp" value="45" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -280,18 +288,28 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/for_vk/botvk.py</url>
-          <line>132</line>
+          <line>140</line>
           <option name="timeStamp" value="72" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/createleningdata/vectorworlds.py</url>
-          <line>169</line>
-          <option name="timeStamp" value="98" />
+          <url>file://$PROJECT_DIR$/createleningdata/creteleningdata.py</url>
+          <line>154</line>
+          <option name="timeStamp" value="112" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/createleningdata/creteleningdata.py</url>
-          <line>139</line>
-          <option name="timeStamp" value="112" />
+          <line>94</line>
+          <option name="timeStamp" value="113" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/klassificators/basik.py</url>
+          <line>7</line>
+          <option name="timeStamp" value="121" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/klassificators/basik.py</url>
+          <line>6</line>
+          <option name="timeStamp" value="122" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

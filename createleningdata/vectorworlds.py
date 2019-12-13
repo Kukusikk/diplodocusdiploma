@@ -8,7 +8,8 @@ import matplotlib.pyplot as plt
 import datetime
 from dateutil.relativedelta import relativedelta
 from sklearn.feature_extraction.text import TfidfVectorizer
-# данный скрипт будет  создаваться во время
+from gensim.models.word2vec import Word2Vec
+# данный скрипт будет  создаваться для создания тестовой выбоки с загрузкой уже существующей модели векторов
 # Поле с признаком:
 # текст поста, в случае если он репостнут то берем текст еще и из начального поста
 # Дата поста
@@ -23,7 +24,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 # слова из тескта, а label-ом класс, к которому относится текст.
 
 
-
+# в качестве параметра получаем количество постов, которые нужно отдать
 
 def createleningdata():
 #подключаемсяк бд
@@ -47,7 +48,7 @@ def createleningdata():
             domenwall = cursor.fetchall()[0][0]
         except:
             # если эта группа еще не была обойдена
-            continue
+            domenwall=''
 # если запись репостнута то идем и берем текст из репоста и количество фоток тоже
         text=onepost[1]
         date=onepost[2]
@@ -71,12 +72,12 @@ def createleningdata():
             else:
                 subsidiarypost=0
         #формируем итоговую выборку
-        x.append([correcttext(text),correctdate(date),[domenwall], likes,reposts, foto ])
+        x.append([correcttext(text),correctdate(date),correcttext(domenwall), likes,reposts, foto ])
         y.append(classification)
 
     cursor.close()
     conn.close()
-    return x,np.array(y)
+    return x,y
 
 
 # корректируем текст сообщения - удаляем абзацы, разбиваем на слова, удаляем знаки припенания и приводим все к нижнему регистру
@@ -106,69 +107,37 @@ def fit(listworld):
         return word2weight
     except:
         return [0 for i in range(len(listworld))]
-
-
-
-X,Y=createleningdata()
-print(6)
-# Для того чтобы обучить классификатор каждый объект должен быть задан вектором числовых признаков. Именно для решения этой проблемы очень
-# удобно применить Word2Vec и перевести слова в числовые вектора
-# туда должны закинуть все предложения и имена доменов как предложения
-dataforvectoring=[]
-for i in X:
-    dataforvectoring.append(i[0])
-    dataforvectoring.append(i[2])
-model=word2vec.Word2Vec(dataforvectoring,sg=1, size=100, window=3,  workers=4)
-
-# Теперь для каждого слова из теста мы имеем соответсвующий ему вектор
+#функция создания итоговой обучающей выборки
+def creatingleningvector():
+    X,Y=createleningdata()
+    # загрузим модель которая у нас уже была сделана при создании обучающей выборки
+    model = Word2Vec.load("/home/fuckinggirl/PycharmProjects/untitled5/createleningdata/word2vec.model")
+# Для каждого слова из теста мы имеем соответсвующий ему вектор
 # Для решения задачи
 # классификации каждый текст преобразуем к среднему по векторам, соответсвующим словам из
 # словаря, которые есть в данном тексте (если слова нет в тексте, то берем нулевой вектор). Это
-# преобразование реализуется методом transform класса mean vectorizer.
-# print(model['MUSIC'])
-for i in X:
-    # a=tfidf_vectorizes(np.array(i[0]))
-# идем по каждому тексту
-#     dim=len(next(iter(model.values())))
-    listvector = []
-    for world in i[0]:
-
-        if world in model:
-            # идем по каждому слову
-            # и добавляем его вектор в массив
+# преобразование реализуется методом transform класса mean vectorizer
+    result = []
+    z=7
+    for i in X:
+        if z:
+            z-=1
+            listvector = []
+            for world in i[0]:
+                if world in model:
+                    # идем по каждому слову
+                    # и добавляем его вектор в массив
+                    try:
+                        listvector.append(model[world]*fit(i[0])[world])
+                    except:
+                        listvector.append(fit(i[0]))
+            a=np.mean(listvector  or [np.zeros(100)],axis=0)
+            i[0]=a
             try:
-                listvector.append(model[world]*fit(i[0])[world])
+                i[2]=np.mean(model[i[2][0]],axis=0)
             except:
-                listvector.append(fit(i[0]))
-
-    a=np.mean(listvector  or [np.zeros(len(i[0]))],axis=0)
-    i[0]=a
-    i[2]=model[i[2]]
+                i[2]=np.mean([np.zeros(100)],axis=0)
+            result.append(i[0].tolist()+[i[1]]+i[2].tolist()+[i[3],i[4],i[5]])
+    return result, Y
 
 
-result=[]
-for i in (X[0][0]).tolist():
-    result.append(i)
-result.append(X[0][1])
-for i in list(X[0][2][0]):
-    result.append(i)
-result.append(X[0][3])
-result.append(X[0][4])
-result.append(X[0][5])
-s=''
-k=0
-print("X=")
-for i in result:
-    s += str(i)
-    if k<10:
-        k+=1
-    else:
-        print(s)
-        s=''
-        k=0
-print(s)
-print('Y=',0)
-
-# print(result)
-# #########################################################################################################################################
-# дальше идет посмтоение классификатора
