@@ -1,0 +1,12 @@
+#!/bin/sh
+
+cd /home
+
+export PYTHONPATH=/home:$PYTHONPATH
+#python3.7 ./for_vk/botvk.py & sleep ; kill $!
+cd /home/createleningdata
+python3.7 ./creteleningdata.py    
+
+python3.7 /home/klassificators/basik.py   
+python3.7 /home/klassificators/sosedi.py  
+python3.7 /home/klassificators/trees.py   

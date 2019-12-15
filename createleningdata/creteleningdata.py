@@ -7,6 +7,7 @@ from collections import defaultdict
 import psycopg2
 from gensim.models import word2vec
 import numpy as np
+import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import datetime
@@ -22,7 +23,7 @@ def createleningdata():
 
 
     conn = psycopg2.connect(dbname='diplodog', user='test_user',
-                            password='qwerty', host='localhost', port=5434)
+                            password='qwerty', host='diplodogdiplom', port=5432)
     cursor = conn.cursor()
     cursor.execute('SELECT id, text, idwall, subsidiarypost,subsidiaryowner_id,idwall from post')
     records = cursor.fetchall()
@@ -144,7 +145,7 @@ for i in X:
 
 
     conn2 = psycopg2.connect(dbname='diplodog', user='test_user',
-                            password='qwerty', host='localhost', port=5434)
+                            password='qwerty', host='diplodogdiplom', port=5432)
     cursor2 = conn2.cursor()
     if whatkategory(a):
         # если категория текста не нулевая

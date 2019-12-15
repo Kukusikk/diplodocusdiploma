@@ -33,7 +33,7 @@ def createleningdata():
 
 
     conn = psycopg2.connect(dbname='diplodog', user='test_user',
-                            password='qwerty', host='localhost', port=5434)
+                            password='qwerty', host='diplodogdiplom', port=5432)
     cursor = conn.cursor()
     cursor.execute('SELECT idwall, text, date, likes, reposts, subsidiarypost, foto, classification from post')
     records = cursor.fetchall()
@@ -111,33 +111,36 @@ def fit(listworld):
 def creatingleningvector():
     X,Y=createleningdata()
     # загрузим модель которая у нас уже была сделана при создании обучающей выборки
-    model = Word2Vec.load("/home/fuckinggirl/PycharmProjects/untitled5/createleningdata/word2vec.model")
+    model = Word2Vec.load("word2vec.model")
 # Для каждого слова из теста мы имеем соответсвующий ему вектор
 # Для решения задачи
 # классификации каждый текст преобразуем к среднему по векторам, соответсвующим словам из
 # словаря, которые есть в данном тексте (если слова нет в тексте, то берем нулевой вектор). Это
 # преобразование реализуется методом transform класса mean vectorizer
     result = []
-    z=7
+
     for i in X:
-        if z:
-            z-=1
-            listvector = []
-            for world in i[0]:
-                if world in model:
-                    # идем по каждому слову
-                    # и добавляем его вектор в массив
-                    try:
-                        listvector.append(model[world]*fit(i[0])[world])
-                    except:
-                        listvector.append(fit(i[0]))
-            a=np.mean(listvector  or [np.zeros(100)],axis=0)
-            i[0]=a
-            try:
-                i[2]=np.mean(model[i[2][0]],axis=0)
-            except:
-                i[2]=np.mean([np.zeros(100)],axis=0)
+
+        listvector = []
+        for world in i[0]:
+            if world in model:
+                # идем по каждому слову
+                # и добавляем его вектор в массив
+                try:
+                    listvector.append(model[world]*fit(i[0])[world])
+                except:
+                    listvector.append(fit(i[0]))
+        a=np.mean(listvector  or [np.zeros(100)],axis=0)
+        i[0]=a
+        try:
+            i[2]=np.array(model[i[2][0]])
+        except:
+            i[2]=np.mean([np.zeros(100)],axis=0)
+        try:
             result.append(i[0].tolist()+[i[1]]+i[2].tolist()+[i[3],i[4],i[5]])
+        except:
+            pass
     return result, Y
+
 
 

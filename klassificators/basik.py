@@ -4,9 +4,13 @@ from sklearn.naive_bayes import BernoulliNB
 import numpy as np
 from createleningdata.vectorworlds import creatingleningvector
 dataX,dataY=creatingleningvector()
-dataY=dataY[:7]
+dataY=dataY
 X_train, X_test, Y_train, Y_test = train_test_split(np.array(dataX), np.array(dataY), test_size=0.33, random_state=42)
 clf_bnb=BernoulliNB()
 clf_bnb.fit(X_train,Y_train)
-print(clf_bnb.predict(X_test))
-print(Y_test)
+m=clf_bnb.predict(X_test)
+k=0
+for i,j in zip(m,Y_test):
+    if i!=j:
+        k+=1
+print(k*100/len(Y_test))
