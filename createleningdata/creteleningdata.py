@@ -23,7 +23,7 @@ def createleningdata():
 
 
     conn = psycopg2.connect(dbname='diplodog', user='test_user',
-                            password='qwerty', host='diplodogdiplom', port=5432)
+                            password='qwerty', host='localhost', port=5434)
     cursor = conn.cursor()
     cursor.execute('SELECT id, text, idwall, subsidiarypost,subsidiaryowner_id,idwall from post')
     records = cursor.fetchall()
@@ -35,10 +35,11 @@ def createleningdata():
         subsidiarypost=onepost[3]
         subsidiaryowner_id=onepost[4]
         idwall = onepost[5]
+        z=0
         if idwall < 0:
-            idwall = -idwall
+            z = -idwall
         # берем домен стены
-        cursor.execute('SELECT domain from Wall where id={} '.format(idwall))
+        cursor.execute('SELECT domain from Wall where id={} '.format(z))
         try:
             domenwall = cursor.fetchall()[0][0]
         except:
@@ -127,7 +128,9 @@ model=word2vec.Word2Vec(dataforvectoring,sg=1, size=100, window=3,  workers=4)
 
 
 # получим список слов по которым нам нужно
-
+conn2 = psycopg2.connect(dbname='diplodog', user='test_user',
+                    password='qwerty', host='localhost', port=5434)
+cursor2 = conn2.cursor()
 for i in X:
     listvector = []
 
@@ -144,17 +147,18 @@ for i in X:
     i[0]=a
 
 
-    conn2 = psycopg2.connect(dbname='diplodog', user='test_user',
-                            password='qwerty', host='diplodogdiplom', port=5432)
-    cursor2 = conn2.cursor()
+
+
     if whatkategory(a):
         # если категория текста не нулевая
         cursor2.execute('UPDATE post SET classification=1 WHERE ID={} and idwall={}'.format(i[1],i[2]))
     else:
-        cursor2.execute('UPDATE post SET classification=0 WHERE ID={} and idwall={}'.format(i[1], i[2]))
+        pass
+    # else:
+    #     cursor2.execute('UPDATE post SET classification=0 WHERE ID={} and idwall={}'.format(i[1], i[2]))
     conn2.commit()
-    cursor2.close()
-    conn2.close()
+cursor2.close()
+conn2.close()
 
 
 # сохраним полученную модель
